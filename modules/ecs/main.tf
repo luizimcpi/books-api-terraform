@@ -71,7 +71,7 @@ resource "aws_alb_target_group" "alb_target_group" {
 
 /* security group for ALB */
 resource "aws_security_group" "web_inbound_sg" {
-  name        = "${var.environment}-web-inbound-sg"
+  name        = "${var.environment}_web-inbound-sg"
   description = "Allow HTTP from Anywhere into ALB"
   vpc_id      = "${var.vpc_id}"
 
@@ -97,7 +97,7 @@ resource "aws_security_group" "web_inbound_sg" {
   }
 
   tags {
-    Name = "${var.environment}-web-inbound-sg"
+    Name = "${var.environment}_web-inbound-sg"
   }
 }
 
@@ -213,7 +213,7 @@ data "aws_ecs_task_definition" "web" {
 }
 
 resource "aws_ecs_service" "web" {
-  name            = "${var.environment}-web"
+  name            = "${var.environment}_web"
   task_definition = "${aws_ecs_task_definition.web.family}:${max("${aws_ecs_task_definition.web.revision}", "${data.aws_ecs_task_definition.web.revision}")}"
   desired_count   = 2
   launch_type     = "FARGATE"
