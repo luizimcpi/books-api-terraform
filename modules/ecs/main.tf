@@ -53,7 +53,7 @@ resource "aws_ecs_task_definition" "web" {
 /*====
 App Load Balancer
 ======*/
-resource "random_id" "target_group_sufix" {
+/*resource "random_id" "target_group_sufix" {
   byte_length = 2
 }
 
@@ -67,10 +67,10 @@ resource "aws_alb_target_group" "alb_target_group" {
   lifecycle {
     create_before_destroy = true
   }
-}
+}*/
 
 /* security group for ALB */
-resource "aws_security_group" "web_inbound_sg" {
+/*resource "aws_security_group" "web_inbound_sg" {
   name        = "${var.environment}_web-inbound-sg"
   description = "Allow HTTP from Anywhere into ALB"
   vpc_id      = "${var.vpc_id}"
@@ -122,7 +122,7 @@ resource "aws_alb_listener" "booksapi" {
     target_group_arn = "${aws_alb_target_group.alb_target_group.arn}"
     type             = "forward"
   }
-}
+}*/
 
 /*
 * IAM service role
@@ -224,14 +224,14 @@ resource "aws_ecs_service" "web" {
     security_groups = ["${var.security_groups_ids}", "${aws_security_group.ecs_service.id}"]
     subnets         = ["${var.subnets_ids}"]
   }
-
+/*
   load_balancer {
     target_group_arn = "${aws_alb_target_group.alb_target_group.arn}"
     container_name   = "web"
     container_port   = "80"
   }
 
-  depends_on = ["aws_alb_target_group.alb_target_group"]
+  depends_on = ["aws_alb_target_group.alb_target_group"]*/
 }
 
 
